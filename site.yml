@@ -1,0 +1,126 @@
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+    - yum:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - openssh-server
+        - openssh-clients
+        - sudo
+
+    - systemd:
+        name: sshd
+        state: started
+        enabled: true
+
+    - systemd:
+        name: "{{ item }}"
+        state: stopped
+        masked: yes
+      with_items:
+        - getty@tty1.service
+        - serial-getty@ttyS0.service
+
+    - group:
+        name: vagrant
+        state: present
+
+    - user:
+        name: vagrant
+        groups: vagrant,wheel
+
+    - file:
+        path: /home/vagrant/.ssh
+        state: directory
+        mode: 0700
+        owner: vagrant
+        group: vagrant
+
+    - copy:
+        src: authorized_keys
+        dest: /home/vagrant/.ssh/authorized_keys
+        mode: 0644
+        owner: vagrant
+        group: vagrant
+
+    - lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^vagrant\s'
+        line: 'vagrant ALL=(ALL) NOPASSWD: ALL'
+
+- hosts: consoles
+  gather_facts: true
+  tasks:
+    - yum:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - vim
+        - which
+        - tree
+        - git
+        - epel-release
+
+    - yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - https://github.com/infra-ci-book/support/raw/master/obsoleted/ansible-2.4.2.0-2.el7.noarch.rpm
+        - https://github.com/infra-ci-book/support/raw/master/obsoleted/ansible-lint-3.4.21-1.el7.centos.noarch.rpm
+
+    - systemd:
+        name: sshd
+        state: started
+        enabled: true
+
+    - file:
+        path: "/home/vagrant/vagrant/infraci/.vagrant/machines/{{ item }}/virtualbox"
+        state: directory
+        mode: 0700
+        owner: vagrant
+        group: vagrant
+      loop:
+        - gitlab
+        - gitlab-runner
+        - ketchup
+        - ketchup-nginx
+        - test-ketchup
+        - test-ketchup-nginx
+
+    - copy:
+        src: private_key
+        dest: "/home/vagrant/vagrant/infraci/.vagrant/machines/{{ item }}/virtualbox/private_key"
+        mode: 0600
+        owner: vagrant
+        group: vagrant
+      loop:
+        - gitlab
+        - gitlab-runner
+        - ketchup
+        - ketchup-nginx
+        - test-ketchup
+        - test-ketchup-nginx
+
+    - copy:
+        src: vimrc
+        dest: "/home/vagrant/.vimrc"
+        mode: 0755
+        owner: vagrant
+        group: vagrant
+
+    - file:
+        path: /home/vagrant/.ssh
+        state: directory
+        mode: 0700
+        owner: vagrant
+        group: vagrant
+
+    - copy:
+        src: private_key
+        dest: /home/vagrant/.ssh/infraci
+        mode: 0600
+        owner: vagrant
+        group: vagrant
