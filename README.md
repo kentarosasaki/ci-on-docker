@@ -11,7 +11,7 @@
 
 ## 環境構築
 
-以下の操作を全て `root` で実施します。
+以下の操作を全て `root` ではなく**一般ユーザ**で実施します。
 
 Install Rootless Docker
 ```
@@ -52,7 +52,7 @@ $ sudo dnf install -y ansible
 docker-compose.ymlをダウンロード
 ```
 $ cd ~/
-$ git clone https://github.com/infra-ci-book/$ ci-on-docker.git
+$ git clone https://github.com/kentarosasaki/ci-on-docker.git
 $ cd ci-on-docker/docker/env_build/docker-compose/
 ```
 
@@ -108,7 +108,7 @@ Runner registered successfully. Feel free to start it, but if it's running alrea
 環境全体の設定作業（書籍版の環境と合わせるための作業）
 
 - gitlab にログインする。ユーザーは `root` パスワードは `volumes/gitlab.rb` で設定した値。
-- 新規プロジェクトを作成して import project -> repo by URL から `https://github.com/infra-ci-book/ci-on-docker.git` をインポートする。
+- 新規プロジェクトを作成して import project -> repo by URL から `https://github.com/kentarosasaki/ci-on-docker.git` をインポートする。
 - 作成されたプロジェクト `ci-on-docker` のプロジェクトページから CI/CD -> pipelines -> run pipeline からパインプラインを実行する。
 - 全ての処理が成功すると本編と同じ環境に設定される。
 
