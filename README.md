@@ -178,7 +178,7 @@ $ docker-compose up -d
 2. GitLabへユーザーを追加する
    - 「user」を「Regular」権限で追加（その他はデフォルト）
 3. プロジェクトの作成 → インポートを行う
-   - インポート元: https://github.com/infra-ci-book/ketchup-vagrant-ansible.git
+   - インポート元: https://github.com/kentarosasaki/ketchup-vagrant-ansible.git
    - Visibility Level を 「Public」に設定
 4. 「ketchup-vagrant-ansible 」プロジェクトに「user」を「developer」権限で追加する
 5. プロジェクトのSettings -> CI/CD -> Secret Variables に変数を追加
