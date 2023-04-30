@@ -109,7 +109,7 @@ Runner registered successfully. Feel free to start it, but if it's running alrea
 
 - gitlab にログインする。ユーザーは `root` パスワードは `volumes/gitlab.rb` で設定した値。
 - 新規プロジェクトを作成して import project -> repo by URL から `https://github.com/kentarosasaki/ci-on-docker.git` をインポートする。
-- 作成されたプロジェクト `ci-on-docker` のプロジェクトページから CI/CD -> pipelines -> run pipeline からパインプラインを実行する。
+- 作成されたプロジェクト `ci-on-docker` のプロジェクトページから CI/CD -> pipelines -> run pipeline からパイプラインを実行する。
 - 全ての処理が成功すると本編と同じ環境に設定される。
 
 
